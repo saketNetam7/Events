@@ -1,0 +1,842 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Sports Events - GEC Bilaspur</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background: #f5f5f5;
+        color: #222;
+      }
+
+      /* ================= HEADER ================= */
+
+      header {
+        background: #111;
+        color: white;
+        padding: 18px 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .logo {
+        font-size: 25px;
+        font-weight: bold;
+      }
+
+      nav a {
+        color: white;
+        text-decoration: none;
+        margin-left: 25px;
+        font-weight: bold;
+      }
+
+      nav a:hover {
+        color: #ff4b2b;
+      }
+
+      /* ================= HERO ================= */
+
+      .hero {
+        background: linear-gradient(135deg, #111, #333);
+        color: white;
+        text-align: center;
+        padding: 55px 20px;
+      }
+
+      .hero h1 {
+        font-size: clamp(32px, 5vw, 55px);
+        margin-bottom: 12px;
+      }
+
+      .hero p {
+        font-size: 18px;
+      }
+
+      /* ================= MAIN ================= */
+
+      .container {
+        width: 92%;
+        max-width: 1100px;
+        margin: 40px auto;
+      }
+
+      .section-title {
+        text-align: center;
+        margin-bottom: 25px;
+      }
+
+      .section-title h2 {
+        font-size: 32px;
+      }
+
+      /* ================= CALENDAR ================= */
+
+      .calendar-box {
+        background: white;
+        padding: 25px;
+        border-radius: 18px;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .calendar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+      }
+
+      .calendar-header h2 {
+        font-size: 25px;
+      }
+
+      .calendar-buttons button {
+        border: none;
+        background: #111;
+        color: white;
+        padding: 10px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-left: 5px;
+      }
+
+      .calendar-buttons button:hover {
+        background: #ff4b2b;
+      }
+
+      .weekdays,
+      .calendar {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+      }
+
+      .weekday {
+        text-align: center;
+        font-weight: bold;
+        padding: 12px 5px;
+        color: #555;
+      }
+
+      .day {
+        min-height: 95px;
+        border: 1px solid #eee;
+        padding: 8px;
+        cursor: pointer;
+        position: relative;
+        background: white;
+      }
+
+      .day:hover {
+        background: #f7f7f7;
+      }
+
+      .empty {
+        background: #fafafa;
+        cursor: default;
+      }
+
+      .date-number {
+        font-weight: bold;
+        font-size: 16px;
+      }
+
+      /* Today */
+
+      .today .date-number {
+        background: #111;
+        color: white;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Event indicator */
+
+      .event-dot {
+        background: #e63946;
+        color: white;
+        font-size: 11px;
+        padding: 4px 5px;
+        border-radius: 5px;
+        margin-top: 8px;
+        display: block;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      /* ================= SELECTED EVENT ================= */
+
+      .event-details {
+        background: white;
+        margin-top: 30px;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+      }
+
+      .event-details h3 {
+        margin-bottom: 15px;
+      }
+
+      .event-card {
+        border-left: 5px solid #e63946;
+        padding: 15px;
+        background: #fafafa;
+        margin-bottom: 12px;
+        border-radius: 5px;
+      }
+
+      .event-card h4 {
+        margin-bottom: 8px;
+      }
+
+      .event-card p {
+        margin: 5px 0;
+        color: #555;
+      }
+
+      /* ================= ADMIN ================= */
+
+      .admin-section {
+        margin-top: 45px;
+        background: #111;
+        color: white;
+        padding: 30px;
+        border-radius: 18px;
+      }
+
+      .admin-section h2 {
+        margin-bottom: 20px;
+      }
+
+      .admin-form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+
+      .admin-form input,
+      .admin-form textarea,
+      .admin-form select {
+        width: 100%;
+        padding: 13px;
+        border: none;
+        border-radius: 7px;
+        font-size: 15px;
+      }
+
+      .admin-form textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+
+      .full {
+        grid-column: 1 / -1;
+      }
+
+      .add-btn {
+        background: #e63946;
+        color: white;
+        border: none;
+        padding: 14px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      .add-btn:hover {
+        background: #ff4b2b;
+      }
+
+      .admin-note {
+        margin-top: 15px;
+        color: #ccc;
+        font-size: 14px;
+      }
+
+      /* ================= FOOTER ================= */
+
+      footer {
+        background: #111;
+        color: white;
+        text-align: center;
+        padding: 25px;
+        margin-top: 50px;
+      }
+
+      /* ================= MOBILE ================= */
+
+      @media (max-width: 700px) {
+        header {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        nav a {
+          margin: 0 7px;
+          font-size: 14px;
+        }
+
+        .calendar-box {
+          padding: 10px;
+        }
+
+        .calendar-header h2 {
+          font-size: 20px;
+        }
+
+        .calendar-buttons button {
+          padding: 8px 10px;
+          font-size: 14px;
+        }
+
+        .weekday {
+          font-size: 12px;
+          padding: 8px 2px;
+        }
+
+        .day {
+          min-height: 65px;
+          padding: 5px;
+        }
+
+        .date-number {
+          font-size: 13px;
+        }
+
+        .today .date-number {
+          width: 25px;
+          height: 25px;
+        }
+
+        .event-dot {
+          font-size: 8px;
+          padding: 3px;
+        }
+
+        .admin-form {
+          grid-template-columns: 1fr;
+        }
+
+        .full {
+          grid-column: auto;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ================= HEADER ================= -->
+
+    <header>
+      <div class="logo">CGIT Bilaspur</div>
+
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="sports.html">Sports</a>
+        <a href="events.html">Events</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </header>
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero">
+      <h1>Sports Events</h1>
+
+      <p>Government Engineering College, Bilaspur</p>
+    </section>
+
+    <!-- ================= CALENDAR ================= -->
+
+    <main class="container">
+      <div class="section-title">
+        <h2>Event Calendar</h2>
+        <p>Check upcoming sports events and competitions.</p>
+      </div>
+
+      <div class="calendar-box">
+        <div class="calendar-header">
+          <h2 id="monthYear"></h2>
+
+          <div class="calendar-buttons">
+            <button onclick="previousMonth()">◀</button>
+
+            <button onclick="goToday()">Today</button>
+
+            <button onclick="nextMonth()">▶</button>
+          </div>
+        </div>
+
+        <!-- Weekdays -->
+
+        <div class="weekdays">
+          <div class="weekday">Sun</div>
+          <div class="weekday">Mon</div>
+          <div class="weekday">Tue</div>
+          <div class="weekday">Wed</div>
+          <div class="weekday">Thu</div>
+          <div class="weekday">Fri</div>
+          <div class="weekday">Sat</div>
+        </div>
+
+        <!-- Calendar -->
+
+        <div id="calendar" class="calendar"></div>
+      </div>
+
+      <!-- ================= EVENT DETAILS ================= -->
+
+      <div class="event-details">
+        <h3 id="selectedDate">Select a date</h3>
+
+        <div id="eventList">Click a date on the calendar to see events.</div>
+      </div>
+
+      <!-- ================= ADMIN ================= -->
+
+      <div class="admin-section">
+        <h2>Admin — Add Sports Event</h2>
+
+        <div class="admin-form">
+          <div>
+            <label>Event Name</label>
+            <input
+              type="text"
+              id="eventName"
+              placeholder="Example: Inter College Cricket"
+            />
+          </div>
+
+          <div>
+            <label>Event Date</label>
+            <input type="date" id="eventDate" />
+          </div>
+
+          <div>
+            <label>Event Time</label>
+            <input type="time" id="eventTime" />
+          </div>
+
+          <div>
+            <label>Sports</label>
+
+            <select id="sport">
+              <option value="Cricket">Cricket</option>
+
+              <option value="Football">Football</option>
+
+              <option value="Hockey">Hockey</option>
+
+              <option value="Basketball">Basketball</option>
+
+              <option value="Volleyball">Volleyball</option>
+
+              <option value="Badminton">Badminton</option>
+
+              <option value="Athletics">Athletics</option>
+
+              <option value="Chess">Chess</option>
+
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="full">
+            <label>Event Description</label>
+
+            <textarea
+              id="eventDescription"
+              placeholder="Write event details..."
+            ></textarea>
+          </div>
+
+          <div class="full">
+            <button class="add-btn" onclick="addEvent()">+ Add Event</button>
+          </div>
+        </div>
+
+        <p class="admin-note">
+          Demo admin system: events are stored in this browser using
+          localStorage.
+        </p>
+      </div>
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+      <p>© 2026 Government Engineering College, Bilaspur</p>
+
+      <p>Sports Department</p>
+    </footer>
+
+    <script>
+      /* =========================================
+       CALENDAR VARIABLES
+    ========================================= */
+
+      let currentDate = new Date();
+
+      let currentMonth = currentDate.getMonth();
+
+      let currentYear = currentDate.getFullYear();
+
+      /* =========================================
+       GET EVENTS FROM LOCAL STORAGE
+    ========================================= */
+
+      let events = JSON.parse(localStorage.getItem("sportsEvents")) || [];
+
+      /* =========================================
+       SAVE EVENTS
+    ========================================= */
+
+      function saveEvents() {
+        localStorage.setItem("sportsEvents", JSON.stringify(events));
+      }
+
+      /* =========================================
+       DISPLAY CALENDAR
+    ========================================= */
+
+      function renderCalendar() {
+        const calendar = document.getElementById("calendar");
+
+        const monthYear = document.getElementById("monthYear");
+
+        calendar.innerHTML = "";
+
+        const monthNames = [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ];
+
+        monthYear.textContent = monthNames[currentMonth] + " " + currentYear;
+
+        /* First day of month */
+
+        const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+
+        /* Number of days */
+
+        const daysInMonth = new Date(
+          currentYear,
+          currentMonth + 1,
+          0,
+        ).getDate();
+
+        /* Empty cells */
+
+        for (let i = 0; i < firstDay; i++) {
+          const empty = document.createElement("div");
+
+          empty.className = "day empty";
+
+          calendar.appendChild(empty);
+        }
+
+        /* Create days */
+
+        for (let day = 1; day <= daysInMonth; day++) {
+          const dayElement = document.createElement("div");
+
+          dayElement.className = "day";
+
+          const dateNumber = document.createElement("div");
+
+          dateNumber.className = "date-number";
+
+          dateNumber.textContent = day;
+
+          dayElement.appendChild(dateNumber);
+
+          /* Create date string */
+
+          const monthString = String(currentMonth + 1).padStart(2, "0");
+
+          const dayString = String(day).padStart(2, "0");
+
+          const dateString = `${currentYear}-${monthString}-${dayString}`;
+
+          /* Check today */
+
+          const today = new Date();
+
+          if (
+            day === today.getDate() &&
+            currentMonth === today.getMonth() &&
+            currentYear === today.getFullYear()
+          ) {
+            dayElement.classList.add("today");
+          }
+
+          /* Find events */
+
+          const dayEvents = events.filter((event) => event.date === dateString);
+
+          /* Display event names */
+
+          dayEvents.forEach((event) => {
+            const eventDot = document.createElement("div");
+
+            eventDot.className = "event-dot";
+
+            eventDot.textContent = event.name;
+
+            dayElement.appendChild(eventDot);
+          });
+
+          /* Click date */
+
+          dayElement.onclick = function () {
+            showEvents(dateString);
+          };
+
+          calendar.appendChild(dayElement);
+        }
+      }
+
+      /* =========================================
+       SHOW EVENTS FOR SELECTED DATE
+    ========================================= */
+
+      function showEvents(date) {
+        const selectedDate = document.getElementById("selectedDate");
+
+        const eventList = document.getElementById("eventList");
+
+        const dateObject = new Date(date + "T00:00:00");
+
+        selectedDate.textContent = dateObject.toLocaleDateString("en-IN", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+
+        const dayEvents = events.filter((event) => event.date === date);
+
+        eventList.innerHTML = "";
+
+        if (dayEvents.length === 0) {
+          eventList.innerHTML = "<p>No events scheduled for this date.</p>";
+
+          return;
+        }
+
+        dayEvents.forEach((event, index) => {
+          const card = document.createElement("div");
+
+          card.className = "event-card";
+
+          card.innerHTML = `
+
+                <h4>🏆 ${event.name}</h4>
+
+                <p>
+                    <strong>Sport:</strong>
+                    ${event.sport}
+                </p>
+
+                <p>
+                    <strong>Time:</strong>
+                    ${event.time || "Not specified"}
+                </p>
+
+                <p>
+                    ${event.description || ""}
+                </p>
+
+                <button
+                    onclick="deleteEvent(${event.id})"
+                    style="
+                        margin-top:10px;
+                        background:#111;
+                        color:white;
+                        border:none;
+                        padding:8px 12px;
+                        border-radius:5px;
+                        cursor:pointer;
+                    "
+                >
+                    Delete
+                </button>
+
+            `;
+
+          eventList.appendChild(card);
+        });
+      }
+
+      /* =========================================
+       ADD EVENT
+    ========================================= */
+
+      function addEvent() {
+        const name = document.getElementById("eventName").value.trim();
+
+        const date = document.getElementById("eventDate").value;
+
+        const time = document.getElementById("eventTime").value;
+
+        const sport = document.getElementById("sport").value;
+
+        const description = document
+          .getElementById("eventDescription")
+          .value.trim();
+
+        /* Validation */
+
+        if (!name || !date) {
+          alert("Please enter Event Name and Event Date.");
+
+          return;
+        }
+
+        /* Create event */
+
+        const newEvent = {
+          id: Date.now(),
+
+          name: name,
+
+          date: date,
+
+          time: time,
+
+          sport: sport,
+
+          description: description,
+        };
+
+        events.push(newEvent);
+
+        saveEvents();
+
+        /* Clear form */
+
+        document.getElementById("eventName").value = "";
+
+        document.getElementById("eventDate").value = "";
+
+        document.getElementById("eventTime").value = "";
+
+        document.getElementById("eventDescription").value = "";
+
+        /* Refresh calendar */
+
+        renderCalendar();
+
+        /* Show newly added event */
+
+        showEvents(date);
+
+        alert("Sports event added successfully!");
+      }
+
+      /* =========================================
+       DELETE EVENT
+    ========================================= */
+
+      function deleteEvent(id) {
+        const confirmDelete = confirm(
+          "Are you sure you want to delete this event?",
+        );
+
+        if (!confirmDelete) {
+          return;
+        }
+
+        events = events.filter((event) => event.id !== id);
+
+        saveEvents();
+
+        renderCalendar();
+
+        document.getElementById("eventList").innerHTML =
+          "<p>Event deleted successfully.</p>";
+      }
+
+      /* =========================================
+       PREVIOUS MONTH
+    ========================================= */
+
+      function previousMonth() {
+        currentMonth--;
+
+        if (currentMonth < 0) {
+          currentMonth = 11;
+
+          currentYear--;
+        }
+
+        renderCalendar();
+      }
+
+      /* =========================================
+       NEXT MONTH
+    ========================================= */
+
+      function nextMonth() {
+        currentMonth++;
+
+        if (currentMonth > 11) {
+          currentMonth = 0;
+
+          currentYear++;
+        }
+
+        renderCalendar();
+      }
+
+      /* =========================================
+       GO TO TODAY
+    ========================================= */
+
+      function goToday() {
+        const today = new Date();
+
+        currentMonth = today.getMonth();
+
+        currentYear = today.getFullYear();
+
+        renderCalendar();
+      }
+
+      /* =========================================
+       INITIAL LOAD
+    ========================================= */
+
+      renderCalendar();
+    </script>
+  </body>
+</html>
